@@ -1,0 +1,35 @@
+-- 1. Create Virtual Warehouse
+CREATE WAREHOUSE IF NOT EXISTS NORTHERN_RIDGE_WH
+    WAREHOUSE_SIZE = 'XSMALL'
+    AUTO_SUSPEND = 60
+    AUTO_RESUME = TRUE
+    INITIALLY_SUSPENDED = TRUE
+    COMMENT = 'Virtual warehouse for Northern Ridge Retail data platform';
+
+-- 2. Create Database & Schemas
+CREATE DATABASE IF NOT EXISTS NORTHERN_RIDGE_DB;
+
+USE DATABASE NORTHERN_RIDGE_DB;
+
+CREATE SCHEMA IF NOT EXISTS BRONZE COMMENT = 'Raw ingested data (immutable)';
+CREATE SCHEMA IF NOT EXISTS SILVER COMMENT = 'Cleansed, deduplicated, and typed data';
+CREATE SCHEMA IF NOT EXISTS GOLD   COMMENT = 'Dimensional model (Star Schema)';
+
+-- 3. Create File Formats in Bronze
+USE SCHEMA BRONZE;
+
+CREATE OR REPLACE FILE FORMAT FF_CSV_GENERIC
+    TYPE = 'CSV'
+    FIELD_OPTIONALLY_ENCLOSED_BY = '"'
+    SKIP_HEADER = 1
+    NULL_IF = ('NULL', 'null', '');
+
+CREATE OR REPLACE FILE FORMAT FF_JSON_GENERIC
+    TYPE = 'JSON'
+    STRIP_OUTER_ARRAY = TRUE;
+
+-- 4. Create Internal Stage for Data Loading
+CREATE OR REPLACE STAGE STG_LANDING_ZONE
+    DIRECTORY = (ENABLE = TRUE)
+    FILE_FORMAT = FF_JSON_GENERIC
+    COMMENT = 'Landing zone for raw CSV and JSON uploads';

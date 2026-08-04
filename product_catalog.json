@@ -1,0 +1,47 @@
+[
+    {
+        "product_id": "PRD-1001",
+        "name": "Banff Thermal Winter Parka",
+        "category": "Apparel",
+        "price_cad": 299.99,
+        "attributes": {
+            "color": "Midnight Blue",
+            "waterproof": true,
+            "fill": "Down 700"
+        }
+    },
+    {
+        "product_id": "PRD-1002",
+        "name": "Jasper 4-Person All-Weather Tent",
+        "category": "Outdoor Gear",
+        "price_cad": 450.0,
+        "attributes": {
+            "capacity": 4,
+            "season": "4-season",
+            "weight_kg": 4.2
+        }
+    },
+    {
+        "product_id": "PRD-1003",
+        "name": "Bow Valley Leather Recliner",
+        "category": "Home & Furniture",
+        "price_cad": 899.5,
+        "attributes": {
+            "material": "Genuine Leather",
+            "recline_type": "Power"
+        }
+    },
+    {
+        "product_id": "PRD-1004",
+        "name": "Rocky Mountain Hiking Boots",
+        "category": "Footwear",
+        "price_cad": 189.99,
+        "attributes": {
+            "size_range": [
+                7,
+                13
+            ],
+            "goretex": true
+        }
+    }
+]
