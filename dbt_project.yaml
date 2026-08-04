@@ -1,0 +1,20 @@
+name: 'northern_ridge_dbt'
+version: '1.0.0'
+config-version: 2
+
+profile: 'northern_ridge_profile'
+
+model-paths: ["models"]
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  northern_ridge_dbt:
+    staging:
+      +materialized: view
+      +schema: SILVER
+    marts:
+      +materialized: table
+      +schema: GOLD
