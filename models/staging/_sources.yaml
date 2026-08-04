@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: bronze
+    database: NORTHERN_RIDGE_DB
+    schema: BRONZE
+    tables:
+      - name: RAW_PRODUCT_CATALOG
+      - name: RAW_SALES_ORDERS
