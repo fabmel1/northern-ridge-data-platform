@@ -11,7 +11,7 @@ WITH raw_orders AS (
         total_amount_cad::NUMBER(10,2)        AS total_amount_cad,
         TO_TIMESTAMP_NTZ(transaction_timestamp) AS transaction_at,
         _file_name,
-        _loaded_at                            AS ingested_at
+        _ingested_at                          AS ingested_at
     FROM {{ source('bronze', 'RAW_SALES_ORDERS') }}
 )
 
