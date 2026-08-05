@@ -14,7 +14,7 @@ models:
   northern_ridge_dbt:
     staging:
       +materialized: view
-      +schema: SILVER
     marts:
       +materialized: table
-      +schema: GOLD
+
+macro-paths: ["macros"]
