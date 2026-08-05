@@ -1,0 +1,15 @@
+northern_ridge_profile:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      # Native Snowflake execution automatically handles connections, 
+      # so standard placeholder values are used here.
+      account: placeholder
+      user: placeholder
+      password: placeholder
+      role: NR_DATA_ENGINEER
+      warehouse: NORTHERN_RIDGE_WH
+      database: NORTHERN_RIDGE_DB
+      schema: SILVER
+      threads: 4
