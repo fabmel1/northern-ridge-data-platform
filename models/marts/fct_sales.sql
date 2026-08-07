@@ -24,7 +24,7 @@ SELECT
     (o.quantity * p.unit_price_cad)::NUMBER(10,2) AS total_amount_cad,
 
     -- Status Flags
-  --  o.order_status,
+    o.order_status,
     
     -- Lineage
     o.ingested_at
