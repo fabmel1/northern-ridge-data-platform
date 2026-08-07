@@ -14,6 +14,9 @@ WITH raw_orders AS (
         _file_name,
         _ingested_at                          AS ingested_at
     FROM {{ source('bronze', 'RAW_SALES_ORDERS') }}
-)
+    QUALIFY ROW_NUMBER() OVER (
+        PARTITION BY order_id 
+        ORDER BY _ingested_at DESC, transaction_timestamp DESC NULLS LAST
+    ) = 1
 
 SELECT * FROM raw_orders

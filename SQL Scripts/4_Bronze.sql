@@ -70,6 +70,7 @@ LANGUAGE SQL
 AS
 $$
 BEGIN
+    TRUNCATE TABLE NORTHERN_RIDGE_DB.BRONZE.RAW_SALES_ORDERS;
     COPY INTO BRONZE.RAW_SALES_ORDERS (
         order_id, 
         customer_id, 
@@ -91,8 +92,9 @@ BEGIN
     )
     FILE_FORMAT = (FORMAT_NAME = 'BRONZE.FF_CSV_GENERIC')
     PATTERN = '.*sales_orders.*\.csv'
-    ON_ERROR = 'CONTINUE';
-    
+    ON_ERROR = 'CONTINUE'
+    PURGE = TRUE;
+
     RETURN 'SUCCESS: Sales orders loaded into BRONZE.RAW_SALES_ORDERS';
 END;
 $$;

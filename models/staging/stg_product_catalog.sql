@@ -15,3 +15,7 @@ SELECT
     raw_payload:attributes                    AS extra_attributes_json,
     _ingested_at                              AS ingested_at
 FROM raw_data
+QUALIFY ROW_NUMBER() OVER (
+    PARTITION BY product_id 
+    ORDER BY ingested_at DESC
+) = 1
