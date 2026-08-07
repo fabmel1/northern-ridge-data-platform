@@ -71,15 +71,61 @@ AS
 $$
 BEGIN
     TRUNCATE TABLE NORTHERN_RIDGE_DB.BRONZE.RAW_SALES_ORDERS;
-    COPY INTO BRONZE.RAW_SALES_ORDERS
-    FROM @BRONZE.STG_LANDING_ZONE
-    FILE_FORMAT = (FORMAT_NAME = 'BRONZE.FF_CSV_GENERIC')
-    MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE
+
+    COPY INTO BRONZE.RAW_SALES_ORDERS (
+        order_id, 
+        customer_id, 
+        store_id, 
+        city, 
+        province, 
+        product_id, 
+        quantity, 
+        unit_price_cad, 
+        total_amount_cad, 
+        order_status,
+        transaction_timestamp, 
+        _file_name
+    )
+    FROM (
+        SELECT 
+            $1::VARCHAR AS order_id, 
+            $2::VARCHAR AS customer_id, 
+            $3::VARCHAR AS store_id, 
+            $4::VARCHAR AS city, 
+            $5::VARCHAR AS province, 
+            $6::VARCHAR AS product_id, 
+            $7::NUMBER  AS quantity, 
+            $8::NUMBER  AS unit_price_cad, 
+            $9::NUMBER  AS total_amount_cad, 
+            
+            -- Detect layout by checking if $11 has content
+            -- Old file (10 cols): $10 is timestamp, $11 is null/missing -> order_status should be NULL
+            -- New file (11 cols): $10 is order_status, $11 is timestamp -> order_status is $10
+            CASE 
+                WHEN $11 IS NOT NULL AND $11 != '' THEN $10 
+                ELSE NULL 
+            END AS order_status,
+            
+            -- Old file (10 cols): timestamp is in $10
+            -- New file (11 cols): timestamp is in $11
+            CASE 
+                WHEN $11 IS NOT NULL AND $11 != '' THEN $11 
+                ELSE $10 
+            END AS transaction_timestamp,
+            
+            METADATA$FILENAME AS _file_name
+        FROM @BRONZE.STG_LANDING_ZONE
+    )
+    FILE_FORMAT = (
+        FORMAT_NAME = 'BRONZE.FF_CSV_GENERIC',
+        -- CRITICAL: Skip header so header strings ('order_status') aren't treated as data
+        SKIP_HEADER = 1 
+    )
     PATTERN = '.*sales_orders.*\.csv'
     ON_ERROR = 'CONTINUE'
     PURGE = TRUE;
 
-    RETURN 'SUCCESS: Sales orders loaded into BRONZE.RAW_SALES_ORDERS';
+    RETURN 'Successfully loaded raw sales orders.';
 END;
 $$;
 
