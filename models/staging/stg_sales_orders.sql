@@ -18,5 +18,5 @@ WITH raw_orders AS (
         PARTITION BY order_id 
         ORDER BY _ingested_at DESC, transaction_timestamp DESC NULLS LAST
     ) = 1
-
+)
 SELECT * FROM raw_orders
