@@ -71,26 +71,10 @@ AS
 $$
 BEGIN
     TRUNCATE TABLE NORTHERN_RIDGE_DB.BRONZE.RAW_SALES_ORDERS;
-    COPY INTO BRONZE.RAW_SALES_ORDERS (
-        order_id, 
-        customer_id, 
-        store_id, 
-        city, 
-        province, 
-        product_id, 
-        quantity, 
-        unit_price_cad, 
-        total_amount_cad, 
-        order_status,
-        transaction_timestamp, 
-        _file_name
-    )
-    FROM (
-        SELECT 
-            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, METADATA$FILENAME
-        FROM @BRONZE.STG_LANDING_ZONE
-    )
+    COPY INTO BRONZE.RAW_SALES_ORDERS
+    FROM @BRONZE.STG_LANDING_ZONE
     FILE_FORMAT = (FORMAT_NAME = 'BRONZE.FF_CSV_GENERIC')
+    MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE
     PATTERN = '.*sales_orders.*\.csv'
     ON_ERROR = 'CONTINUE'
     PURGE = TRUE;
