@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: dim_products
+    description: "Gold dimension table containing current product catalog and attribute metadata."
+    config:
+      materialized: table
+      schema: gold
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_sales
+    description: "Gold fact table containing atomic sales order transactions."
+    config:
+      materialized: table
+      schema: gold
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
