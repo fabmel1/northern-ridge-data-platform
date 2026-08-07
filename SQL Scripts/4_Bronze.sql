@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS RAW_SALES_ORDERS (
     quantity NUMBER(10, 0),
     unit_price_cad NUMBER(10, 2),
     total_amount_cad NUMBER(10, 2),
+    order_status VARCHAR(50),
     transaction_timestamp TIMESTAMP_NTZ,
     _ingested_at TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP(),
     _file_name VARCHAR(255)
@@ -79,12 +80,13 @@ BEGIN
         quantity, 
         unit_price_cad, 
         total_amount_cad, 
+        order_status,
         transaction_timestamp, 
         _file_name
     )
     FROM (
         SELECT 
-            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, METADATA$FILENAME
+            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, METADATA$FILENAME
         FROM @BRONZE.STG_LANDING_ZONE
     )
     FILE_FORMAT = (FORMAT_NAME = 'BRONZE.FF_CSV_GENERIC')
@@ -133,3 +135,10 @@ SELECT COUNT(*) FROM BRONZE.RAW_SALES_ORDERS;
 SELECT COUNT(*) FROM BRONZE.RAW_PRODUCT_CATALOG;
  */
 
+
+
+---Add ons
+
+--Adding order_status column
+ALTER TABLE NORTHERN_RIDGE_DB.BRONZE.RAW_SALES_ORDERS 
+ADD COLUMN order_status VARCHAR(50);
