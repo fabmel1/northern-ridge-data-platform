@@ -2,12 +2,55 @@ version: 2
 
 models:
   - name: dim_products
-    description: "Gold dimension table containing current product catalog and attribute metadata."
+    description: "Gold dimension table containing current product catalog and parsed attribute metadata."
+    config:
+      materialized: view
+      schema: gold
+    columns:
+      - name: product_id
+        description: "Primary key for the product dimension."
+        tests:
+          - unique
+          - not_null
+      - name: product_name
+        tests:
+          - not_null
+      - name: category
+        tests:
+          - not_null
+
+  - name: dim_stores
+    description: "Gold dimension table containing retail store locations and province details."
+    config:
+      materialized: view
+      schema: gold
+    columns:
+      - name: store_id
+        description: "Primary key for the store dimension."
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_customers
+    description: "Gold dimension table containing customer profile keys and primary locations."
+    config:
+      materialized: view
+      schema: gold
+    columns:
+      - name: customer_id
+        description: "Primary key for the customer dimension."
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_date
+    description: "Gold date dimension table generated from order timestamps for time-series analytics."
     config:
       materialized: table
       schema: gold
     columns:
-      - name: product_id
+      - name: date_key
+        description: "Primary key for the date dimension (YYYY-MM-DD)."
         tests:
           - unique
           - not_null
@@ -19,6 +62,7 @@ models:
       schema: gold
     columns:
       - name: order_id
+        description: "Primary key for the sales fact record."
         tests:
           - unique
           - not_null
@@ -28,3 +72,21 @@ models:
           - relationships:
               to: ref('dim_products')
               field: product_id
+      - name: store_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_stores')
+              field: store_id
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+      - name: date_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key

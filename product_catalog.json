@@ -3,7 +3,6 @@
         "product_id": "PRD-1001",
         "name": "Banff Thermal Winter Parka",
         "category": "Apparel",
-        "subcategory": "Jackets",
         "price_cad": 299.99,
         "attributes": {
             "color": "Midnight Blue",
@@ -15,7 +14,6 @@
         "product_id": "PRD-1002",
         "name": "Jasper 4-Person All-Weather Tent",
         "category": "Outdoor Gear",
-        "subcategory": "Tents",
         "price_cad": 450.0,
         "attributes": {
             "capacity": 4,
@@ -27,7 +25,6 @@
         "product_id": "PRD-1003",
         "name": "Bow Valley Leather Recliner",
         "category": "Home & Furniture",
-        "subcategory": "Recliners",
         "price_cad": 899.5,
         "attributes": {
             "material": "Genuine Leather",
@@ -38,7 +35,6 @@
         "product_id": "PRD-1004",
         "name": "Rocky Mountain Hiking Boots",
         "category": "Footwear",
-        "subcategory": "Boots",
         "price_cad": 189.99,
         "attributes": {
             "size_range": [
@@ -46,6 +42,56 @@
                 13
             ],
             "goretex": true
+        }
+    },
+    {
+        "product_id": "PRD-1005",
+        "name": "Canmore Carbon Trekking Poles",
+        "category": "Outdoor Gear",
+        "price_cad": 129.99,
+        "attributes": {
+            "material": "Carbon Fiber",
+            "adjustable": true
+        }
+    },
+    {
+        "product_id": "PRD-1006",
+        "name": "Kananaskis Hydration Pack 15L",
+        "category": "Outdoor Gear",
+        "price_cad": 85.0,
+        "attributes": {
+            "capacity_liters": 15,
+            "reservoir_included": true
+        }
+    },
+    {
+        "product_id": "PRD-1007",
+        "name": "Lake Louise Wool Knit Sweater",
+        "category": "Apparel",
+        "price_cad": 149.5,
+        "attributes": {
+            "material": "Merino Wool",
+            "gender": "Unisex"
+        }
+    },
+    {
+        "product_id": "PRD-1008",
+        "name": "Calgary Trail Headlamp 800 Lumens",
+        "category": "Electronics",
+        "price_cad": 64.99,
+        "attributes": {
+            "lumens": 800,
+            "rechargeable": true
+        }
+    },
+    {
+        "product_id": "PRD-1009",
+        "name": "Edmonton Cast Iron Camp Dutch Oven",
+        "category": "Cookware",
+        "price_cad": 110.0,
+        "attributes": {
+            "volume_quarts": 6,
+            "pre_seasoned": true
         }
     }
 ]
