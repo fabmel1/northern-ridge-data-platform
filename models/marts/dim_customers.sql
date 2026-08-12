@@ -25,7 +25,7 @@ SELECT DISTINCT
     province,
 
     -- Metadata
-    MIN(ingested_at)                                AS updated_at
+    ingested_at AS updated_at
 
 FROM ranked_customers
 WHERE rn = 1
